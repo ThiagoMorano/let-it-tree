@@ -33,4 +33,9 @@ public class PlantController {
     public List<Plant> getAllPlants() {
         return plantService.getAllPlants();
     }
+
+    @GetMapping("/toWater")
+    public List<Plant> getPlantsToBeWatered() {
+        return plantService.getPlantsToBeWatered();
+    }
 }

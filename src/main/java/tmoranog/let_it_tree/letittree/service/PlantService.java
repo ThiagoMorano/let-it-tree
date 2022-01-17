@@ -26,4 +26,8 @@ public class PlantService {
     public int addPlant(Plant plant) {
         return plantDao.insertPlant(plant);
     }
+
+    public List<Plant> getPlantsToBeWatered() {
+        return plantDao.selectPlantsToBeWatered();
+    }
 }
