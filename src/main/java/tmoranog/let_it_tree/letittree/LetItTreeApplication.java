@@ -1,0 +1,13 @@
+package tmoranog.let_it_tree.letittree;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class LetItTreeApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(LetItTreeApplication.class, args);
+	}
+
+}
