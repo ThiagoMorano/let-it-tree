@@ -1,10 +1,10 @@
 package tmoranog.let_it_tree.letittree.dao;
 
-import java.io.Console;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -38,5 +38,31 @@ public class FakePlantDatabase implements PlantDao {
                 })
                 .collect(Collectors.toList());
         return plantsToBeWatered;
+    }
+
+    @Override
+    public int updatePlantById(UUID id, Plant plant) {
+        Optional<Plant> plantMaybe = selectPlantById(id);
+
+        if (plantMaybe.isEmpty()) {
+            return 0;
+        }
+
+        int indexOfPlantToUpdate = plantDatabase.indexOf(plantMaybe.get());
+        if (indexOfPlantToUpdate >= 0) {
+            plantDatabase.set(
+                    indexOfPlantToUpdate,
+                    new Plant(id, plant.getName(), plant.getLastDateWatered(), plant.getDaysBetweenWatering()));
+        }
+
+        return 1;
+    }
+
+    @Override
+    public Optional<Plant> selectPlantById(UUID id) {
+        Optional<Plant> plantMaybe = plantDatabase.stream()
+            .filter(plant -> plant.getId().equals(id))
+            .findFirst();
+        return plantMaybe;
     }
 }

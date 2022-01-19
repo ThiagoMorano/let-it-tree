@@ -1,11 +1,14 @@
 package tmoranog.let_it_tree.letittree.api;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,8 +37,18 @@ public class PlantController {
         return plantService.getAllPlants();
     }
 
-    @GetMapping("/toWater")
+    @GetMapping("/{id}")
+    public Optional<Plant> getPlantById(@PathVariable UUID id) {
+        return plantService.getPlantById(id);
+    }
+
+    @GetMapping("/needWater")
     public List<Plant> getPlantsToBeWatered() {
         return plantService.getPlantsToBeWatered();
+    }
+
+    @PutMapping("/{id}")
+    public int updatePlantOfId(@PathVariable UUID id, @RequestBody Plant plant) {
+        return plantService.updatePlantById(id, plant);
     }
 }
