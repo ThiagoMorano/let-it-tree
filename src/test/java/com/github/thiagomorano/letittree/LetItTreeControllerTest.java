@@ -37,9 +37,21 @@ public class LetItTreeControllerTest {
 
 		when(letItTreeService.getAllPlants()).thenReturn(plants);
 
-		mockMvc.perform(
-				MockMvcRequestBuilders.get(apiPath).accept(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(2));
+		mockMvc.perform(MockMvcRequestBuilders
+				.get(apiPath).accept(MediaType.APPLICATION_JSON))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(2));
+	}
+
+	@Test
+	void givenController_whenGetAllPlantsEmpty_thenResponseOkSize0() throws Exception {
+		List<Plant> plants = List.of();
+
+		when(letItTreeService.getAllPlants()).thenReturn(plants);
+
+		mockMvc.perform(MockMvcRequestBuilders
+				.get(apiPath).accept(MediaType.APPLICATION_JSON))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(0));
 	}
 }
