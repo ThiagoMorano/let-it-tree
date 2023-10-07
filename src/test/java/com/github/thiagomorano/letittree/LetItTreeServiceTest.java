@@ -31,7 +31,7 @@ public class LetItTreeServiceTest {
 	private LetItTreeService letItTreeService;
 
 	@Test
-	public void givenEmptyRepository_whenGetAllPlants_thenReturnsEmptyArray() {
+	void givenEmptyRepository_whenGetAllPlants_thenReturnsEmptyArray() {
 		when(mockPlantRepository.findAllPlants()).thenReturn(new ArrayList<>());
 
 		List<Plant> result = letItTreeService.getAllPlants();
@@ -39,7 +39,7 @@ public class LetItTreeServiceTest {
 	}
 
 	@Test
-	public void givenRepository_whenGetAllPlants_thenReturnsExistingPlants() {
+	void givenRepository_whenGetAllPlants_thenReturnsExistingPlants() {
 		Plant plant1 = new Plant(0L);
 		Plant plant2 = new Plant(1L);
 		List<Plant> plants = List.of(plant1, plant2);
@@ -54,7 +54,7 @@ public class LetItTreeServiceTest {
 	}
 
 	@Test
-	public void givenFilledRepository_whenGetPlantsToBeWatered_thenReturnsOnlyPlantsPastWaterDate() {
+	void givenFilledRepository_whenGetPlantsToBeWatered_thenReturnsOnlyPlantsPastWaterDate() {
 		// @TODO: revisit this once custom filter is extracted
 		LocalDate today = LocalDate.now();
 		Plant plant1 = new Plant(0L, 1, LocalDate.MIN);
@@ -69,7 +69,7 @@ public class LetItTreeServiceTest {
 	}
 
 	@Test
-	public void givenPlantInRepository_whenGetPlantById_thenReturnsCorrectPlant() {
+	void givenPlantInRepository_whenGetPlantById_thenReturnsCorrectPlant() {
 		Long id = 123L;
 		Plant plant = new Plant(id);
 
@@ -81,7 +81,7 @@ public class LetItTreeServiceTest {
 	}
 
 	@Test
-	public void givenPlantNotInRepository_whenGetPlantById_thenReturnsNull() {
+	void givenPlantNotInRepository_whenGetPlantById_thenReturnsNull() {
 		Long id = 123L;
 
 		when(mockPlantRepository.findById(id)).thenReturn(Optional.empty());
