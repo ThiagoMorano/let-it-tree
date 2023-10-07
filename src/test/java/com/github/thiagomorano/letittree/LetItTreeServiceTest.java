@@ -1,12 +1,14 @@
 package com.github.thiagomorano.letittree;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -64,5 +66,27 @@ public class LetItTreeServiceTest {
 		List<Plant> result = letItTreeService.getPlantsToBeWatered();
 		assertEquals(1, result.size());
 		assertEquals(plant1.getId(), result.get(0).getId());
+	}
+
+	@Test
+	public void givenPlantInRepository_whenGetPlantById_thenReturnsCorrectPlant() {
+		Long id = 123L;
+		Plant plant = new Plant(id);
+
+		when(mockPlantRepository.findById(id)).thenReturn(Optional.of(plant));
+
+		Optional<Plant> result = letItTreeService.getPlantById(id);
+		assertTrue(result.isPresent());
+		assertEquals(id, result.get().getId());
+	}
+
+	@Test
+	public void givenPlantNotInRepository_whenGetPlantById_thenReturnsNull() {
+		Long id = 123L;
+
+		when(mockPlantRepository.findById(id)).thenReturn(Optional.empty());
+
+		Optional<Plant> result = letItTreeService.getPlantById(id);
+		assertTrue(result.isEmpty());
 	}
 }

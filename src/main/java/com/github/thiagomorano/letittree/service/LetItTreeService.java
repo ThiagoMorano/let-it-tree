@@ -3,6 +3,7 @@ package com.github.thiagomorano.letittree.service;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.github.thiagomorano.letittree.model.Plant;
@@ -36,5 +37,9 @@ public class LetItTreeService {
 					return daysSinceLastWater > plant.getDaysBetweenWatering();
 				}).collect(Collectors.toList());
 		return plantsToBeWatered;
+	}
+
+	public Optional<Plant> getPlantById(Long id) {
+		return plantRepository.findById(id);
 	}
 }
