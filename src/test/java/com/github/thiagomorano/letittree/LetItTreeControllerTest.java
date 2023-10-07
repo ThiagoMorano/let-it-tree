@@ -3,6 +3,7 @@ package com.github.thiagomorano.letittree;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.github.thiagomorano.letittree.model.Plant;
@@ -39,8 +41,8 @@ public class LetItTreeControllerTest {
 
 		mockMvc.perform(MockMvcRequestBuilders
 				.get(apiPath).accept(MediaType.APPLICATION_JSON))
-			.andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(2));
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(2));
 	}
 
 	@Test
@@ -51,7 +53,30 @@ public class LetItTreeControllerTest {
 
 		mockMvc.perform(MockMvcRequestBuilders
 				.get(apiPath).accept(MediaType.APPLICATION_JSON))
-			.andExpect(MockMvcResultMatchers.status().isOk())
-			.andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(0));
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(0));
+	}
+
+	@Test
+	void givenController_whenGetByIdAndServiceEmpty_thenRespondsNotFound() throws Exception {
+		Long id = 1L;
+
+		when(letItTreeService.getPlantById(id)).thenReturn(Optional.empty());
+
+		mockMvc.perform(MockMvcRequestBuilders.get(apiPath + "/" + id.toString()))
+				.andExpect(MockMvcResultMatchers.status().isNotFound());
+	}
+
+	@Test
+	void givenController_whenGetByIdAndServiceContains_thenRespondsOk() throws Exception {
+		Long id = 1L;
+		Plant plant = new Plant(id);
+
+		when(letItTreeService.getPlantById(id)).thenReturn(Optional.of(plant));
+
+		mockMvc.perform(MockMvcRequestBuilders.get(apiPath + "/" + id.toString()))
+				.andDo(MockMvcResultHandlers.print())
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(id));
 	}
 }
