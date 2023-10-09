@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.thiagomorano.letittree.model.Plant;
-import com.github.thiagomorano.letittree.service.LetItTreeService;
+import com.github.thiagomorano.letittree.service.PlantService;
 
 @RequestMapping("api/v1/plant")
 @RestController
-public class LetItTreeController {
-	private LetItTreeService letItTreeService;
+public class PlantController {
+	private PlantService letItTreeService;
 
 	@Autowired
-	public LetItTreeController(LetItTreeService service) {
+	public PlantController(PlantService service) {
 		this.letItTreeService = service;
 	}
 

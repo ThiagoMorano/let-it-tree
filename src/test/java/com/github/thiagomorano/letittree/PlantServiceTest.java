@@ -21,16 +21,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.github.thiagomorano.letittree.model.Plant;
 import com.github.thiagomorano.letittree.repository.PlantRepository;
-import com.github.thiagomorano.letittree.service.LetItTreeService;
+import com.github.thiagomorano.letittree.service.PlantService;
 
 @ExtendWith(MockitoExtension.class)
-public class LetItTreeServiceTest {
+public class PlantServiceTest {
 
 	@Mock
 	private PlantRepository mockPlantRepository;
 
 	@InjectMocks
-	private LetItTreeService letItTreeService;
+	private PlantService letItTreeService;
 
 	@Test
 	void givenEmptyRepository_whenGetAllPlants_thenReturnsEmptyArray() {

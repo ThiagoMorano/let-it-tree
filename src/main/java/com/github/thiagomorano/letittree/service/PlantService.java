@@ -14,11 +14,11 @@ import com.github.thiagomorano.letittree.model.Plant;
 import com.github.thiagomorano.letittree.repository.PlantRepository;
 
 @Service
-public class LetItTreeService {
+public class PlantService {
 	private final PlantRepository plantRepository;
 
 	@Autowired
-	public LetItTreeService(PlantRepository plantRepository) {
+	public PlantService(PlantRepository plantRepository) {
 		this.plantRepository = plantRepository;
 	}
 

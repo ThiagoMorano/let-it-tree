@@ -19,17 +19,17 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.github.thiagomorano.letittree.model.Plant;
-import com.github.thiagomorano.letittree.service.LetItTreeService;
+import com.github.thiagomorano.letittree.service.PlantService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class LetItTreeControllerTest {
+public class PlantControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@MockBean
-	private LetItTreeService letItTreeService;
+	private PlantService letItTreeService;
 
 	private String apiPath = "/api/v1/plant/";
 
