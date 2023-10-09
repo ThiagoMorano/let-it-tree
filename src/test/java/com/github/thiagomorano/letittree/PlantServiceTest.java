@@ -57,7 +57,7 @@ public class PlantServiceTest {
 	}
 
 	@Test
-	void givenFilledRepository_whenGetPlantsToBeWatered_thenReturnsOnlyPlantsPastWaterDate() {
+	void givenFilledRepository_whenGetPlantsToWater_thenReturnsOnlyPlantsPastWaterDate() {
 		// @TODO: revisit this once custom filter is extracted
 		LocalDate today = LocalDate.now();
 		Plant plant1 = new Plant(UUID.randomUUID(), 1, LocalDate.MIN);
@@ -66,7 +66,7 @@ public class PlantServiceTest {
 
 		when(mockPlantRepository.findAllPlants()).thenReturn(plants);
 
-		List<Plant> result = plantSertvice.getPlantsToBeWatered();
+		List<Plant> result = plantSertvice.getPlantsToWater();
 		assertEquals(1, result.size());
 		assertTrue(plant1.getId().equals(result.get(0).getId()));
 	}

@@ -44,6 +44,11 @@ public class PlantController {
 		}
 	}
 
+	@GetMapping(path = "/need-water", produces = "application/json")
+	public List<Plant> getPlantsToWater() {
+		return this.plantService.getPlantsToWater();
+	}
+
 	@PostMapping(path = "/", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Plant> addPlant(@RequestBody Plant plant) {
 		// @TODO: evaluate returning the newly added object

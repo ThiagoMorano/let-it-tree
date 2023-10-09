@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -88,6 +89,20 @@ public class PlantControllerTest {
 	}
 
 	@Test
+	void givenListOfPlants_whenGetPlantsToWater_thenRespondsOk() throws Exception {
+		Plant plant1 = new Plant(UUID.randomUUID(), "Plant1", 1, LocalDate.now());
+		Plant plant2 = new Plant(UUID.randomUUID(), "Plant2", 2, LocalDate.now());
+		List<Plant> plants = List.of(plant1, plant2);
+
+		when(plantService.getPlantsToWater()).thenReturn(plants);
+
+		mockMvc.perform(MockMvcRequestBuilders
+				.get(apiPath + "need-water").accept(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(2));
+	}
+
+	@Test
 	void givenController_whenAddPlant_thenRespondsCreated() throws Exception {
 		Plant savedPlant = new Plant(UUID.randomUUID());
 
@@ -95,7 +110,7 @@ public class PlantControllerTest {
 		var requestBody = "{ \"id\": \"" + savedPlant.getId().toString() + "\" }";
 
 		mockMvc.perform(MockMvcRequestBuilders
-				.post(apiPath + "/")
+				.post(apiPath)
 				.content(requestBody)
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isCreated());
@@ -107,7 +122,7 @@ public class PlantControllerTest {
 		when(plantService.exists(id)).thenReturn(true);
 
 		mockMvc.perform(MockMvcRequestBuilders
-				.delete(apiPath + "/" + id.toString()))
+				.delete(apiPath + id.toString()))
 				.andExpect(MockMvcResultMatchers.status().isNoContent());
 	}
 
@@ -117,7 +132,7 @@ public class PlantControllerTest {
 		when(plantService.exists(id)).thenReturn(false);
 
 		mockMvc.perform(MockMvcRequestBuilders
-				.delete(apiPath + "/" + id.toString()))
+				.delete(apiPath + id.toString()))
 				.andExpect(MockMvcResultMatchers.status().isNotFound());
 	}
 
@@ -129,7 +144,7 @@ public class PlantControllerTest {
 		var requestBody = "{ \"id\": \"" + plant.getId().toString() + "\" }";
 
 		mockMvc.perform(MockMvcRequestBuilders
-				.put(apiPath + "/" + plant.getId().toString())
+				.put(apiPath + plant.getId().toString())
 				.content(requestBody)
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isNotFound());

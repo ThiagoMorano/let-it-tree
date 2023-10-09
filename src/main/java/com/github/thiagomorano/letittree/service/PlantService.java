@@ -26,7 +26,7 @@ public class PlantService {
 		return plantRepository.findAllPlants();
 	}
 
-	public List<Plant> getPlantsToBeWatered() {
+	public List<Plant> getPlantsToWater() {
 		// @TODO: evaluate whether filtering should be performed
 		// in the repository layer in query level
 
