@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class LetItTreeService {
 		return plantsToBeWatered;
 	}
 
-	public Optional<Plant> getPlantById(Long id) {
+	public Optional<Plant> getPlantById(UUID id) {
 		return plantRepository.findById(id);
 	}
 

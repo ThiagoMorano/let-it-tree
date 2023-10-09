@@ -2,6 +2,7 @@ package com.github.thiagomorano.letittree.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class LetItTreeController {
 	}
 
 	@GetMapping(path = "/{id}", produces = "application/json")
-	public ResponseEntity<Plant> getById(@PathVariable Long id) {
+	public ResponseEntity<Plant> getById(@PathVariable UUID id) {
 		Optional<Plant> optionalPlant = this.letItTreeService.getPlantById(id);
 		if (optionalPlant.isPresent()) {
 			return ResponseEntity.ok(optionalPlant.get());

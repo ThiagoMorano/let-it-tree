@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,8 @@ public class LetItTreeControllerTest {
 
 	@Test
 	void givenController_whenGetAllPlantsNotEmpty_thenResponseIsOk() throws Exception {
-		Plant plant1 = new Plant(1L);
-		Plant plant2 = new Plant(2L);
+		Plant plant1 = new Plant(UUID.randomUUID());
+		Plant plant2 = new Plant(UUID.randomUUID());
 		List<Plant> plants = List.of(plant1, plant2);
 
 		when(letItTreeService.getAllPlants()).thenReturn(plants);
@@ -60,7 +61,7 @@ public class LetItTreeControllerTest {
 
 	@Test
 	void givenController_whenGetByIdAndServiceEmpty_thenRespondsNotFound() throws Exception {
-		Long id = 1L;
+		UUID id = UUID.randomUUID();
 
 		when(letItTreeService.getPlantById(id)).thenReturn(Optional.empty());
 
@@ -70,7 +71,7 @@ public class LetItTreeControllerTest {
 
 	@Test
 	void givenController_whenGetByIdAndServiceContains_thenRespondsOk() throws Exception {
-		Long id = 1L;
+		UUID id = UUID.randomUUID();
 		Plant plant = new Plant(id);
 
 		when(letItTreeService.getPlantById(id)).thenReturn(Optional.of(plant));
@@ -78,15 +79,15 @@ public class LetItTreeControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.get(apiPath + "/" + id.toString()))
 				.andDo(MockMvcResultHandlers.print())
 				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(id));
+				.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(id.toString()));
 	}
 
 	@Test
 	void givenController_whenAddPlant_thenRespondsCreated() throws Exception {
-		Plant savedPlant = new Plant(1L);
+		Plant savedPlant = new Plant(UUID.randomUUID());
 
 		when(letItTreeService.addPlant(any(Plant.class))).thenReturn(savedPlant);
-		var requestBody = "{ \"id\": " + savedPlant.getId() + " }";
+		var requestBody = "{ \"id\": \"" + savedPlant.getId().toString() + "\" }";
 
 		mockMvc.perform(MockMvcRequestBuilders
 				.post(apiPath + "/")

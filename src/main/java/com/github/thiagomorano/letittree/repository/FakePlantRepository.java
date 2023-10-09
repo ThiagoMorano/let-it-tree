@@ -3,6 +3,7 @@ package com.github.thiagomorano.letittree.repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +19,7 @@ public class FakePlantRepository implements PlantRepository {
 	}
 
 	@Override
-	public Optional<Plant> findById(Long id) {
+	public Optional<Plant> findById(UUID id) {
 		Optional<Plant> result = plantDatabase.stream()
 				.filter(plant -> plant.getId().equals(id))
 				.findFirst();
@@ -26,9 +27,9 @@ public class FakePlantRepository implements PlantRepository {
 	}
 
 	@Override
-	public Plant addPlant(Plant plant) {
-		plantDatabase.add(plant);
-		return plant;
+	public Plant addPlant(UUID id, Plant plant) {
+		Plant newPlant = new Plant(id, plant.getName(), plant.getDaysBetweenWatering(), plant.getLastWateringDate());
+		plantDatabase.add(newPlant);
+		return newPlant;
 	}
-
 }

@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,8 +42,8 @@ public class LetItTreeServiceTest {
 
 	@Test
 	void givenRepository_whenGetAllPlants_thenReturnsExistingPlants() {
-		Plant plant1 = new Plant(0L);
-		Plant plant2 = new Plant(1L);
+		Plant plant1 = new Plant(UUID.randomUUID());
+		Plant plant2 = new Plant(UUID.randomUUID());
 		List<Plant> plants = List.of(plant1, plant2);
 
 		when(mockPlantRepository.findAllPlants()).thenReturn(plants);
@@ -58,32 +59,32 @@ public class LetItTreeServiceTest {
 	void givenFilledRepository_whenGetPlantsToBeWatered_thenReturnsOnlyPlantsPastWaterDate() {
 		// @TODO: revisit this once custom filter is extracted
 		LocalDate today = LocalDate.now();
-		Plant plant1 = new Plant(0L, 1, LocalDate.MIN);
-		Plant plant2 = new Plant(1L, 1, today);
+		Plant plant1 = new Plant(UUID.randomUUID(), 1, LocalDate.MIN);
+		Plant plant2 = new Plant(UUID.randomUUID(), 1, today);
 		List<Plant> plants = List.of(plant1, plant2);
 
 		when(mockPlantRepository.findAllPlants()).thenReturn(plants);
 
 		List<Plant> result = letItTreeService.getPlantsToBeWatered();
 		assertEquals(1, result.size());
-		assertEquals(plant1.getId(), result.get(0).getId());
+		assertTrue(plant1.getId().equals(result.get(0).getId()));
 	}
 
 	@Test
 	void givenPlantInRepository_whenGetPlantById_thenReturnsCorrectPlant() {
-		Long id = 123L;
+		UUID id = UUID.randomUUID();
 		Plant plant = new Plant(id);
 
 		when(mockPlantRepository.findById(id)).thenReturn(Optional.of(plant));
 
 		Optional<Plant> result = letItTreeService.getPlantById(id);
 		assertTrue(result.isPresent());
-		assertEquals(id, result.get().getId());
+		assertTrue(id.equals(result.get().getId()));
 	}
 
 	@Test
 	void givenPlantNotInRepository_whenGetPlantById_thenReturnsNull() {
-		Long id = 123L;
+		UUID id = UUID.randomUUID();
 
 		when(mockPlantRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -93,7 +94,7 @@ public class LetItTreeServiceTest {
 
 	@Test
 	void givenService_whenAddPlant_thenReturnsAddedPlant() {
-		Long id = 123L;
+		UUID id = UUID.randomUUID();
 		Plant newPlant = new Plant(id);
 
 		when(mockPlantRepository.addPlant(newPlant)).thenReturn(newPlant);
