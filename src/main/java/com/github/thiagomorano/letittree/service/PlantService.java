@@ -52,6 +52,10 @@ public class PlantService {
 		return plantRepository.addPlant(plant);
 	}
 
+	public void updatePlant(UUID id, Plant plant) {
+		plantRepository.updateById(id, plant);
+	}
+
 	public void deletePlant(UUID id) {
 		plantRepository.deleteById(id);
 	}

@@ -126,6 +126,15 @@ public class PlantServiceTest {
 	}
 
 	@Test
+	void givenService_whenUpdateExistingPlant_thenReturnsUpdatedPlant() {
+		UUID id = UUID.randomUUID();
+		Plant updatedPlant = new Plant(id, 1);
+
+		letItTreeService.updatePlant(id, updatedPlant);
+		verify(mockPlantRepository).updateById(id, updatedPlant);
+	}
+
+	@Test
 	void givenService_whenDeletePlant_thenRepositoryDeleteByIdIsCalled() {
 		UUID id = UUID.randomUUID();
 

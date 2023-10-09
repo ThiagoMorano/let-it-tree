@@ -18,6 +18,8 @@ public interface PlantRepository {
 
 	Plant addPlant(UUID id, Plant plant);
 
+	void updateById(UUID id, Plant any);
+
 	void deleteById(UUID id);
 
 	boolean existById(UUID id);

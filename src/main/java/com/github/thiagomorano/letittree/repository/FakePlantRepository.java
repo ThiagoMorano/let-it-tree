@@ -49,4 +49,15 @@ public class FakePlantRepository implements PlantRepository {
 		}
 		return true;
 	}
+
+	@Override
+	public void updateById(UUID id, Plant updatedPlant) {
+		for (int i = 0; i < plantDatabase.size(); i++) {
+			Plant plant = plantDatabase.get(i);
+			if (plant.getId().equals(id)) {
+				plantDatabase.set(i, updatedPlant);
+				return;
+			}
+		}
+	}
 }
