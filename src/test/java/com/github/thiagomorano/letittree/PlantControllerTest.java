@@ -34,7 +34,7 @@ public class PlantControllerTest {
 	private MockMvc mockMvc;
 
 	@MockBean
-	private PlantService letItTreeService;
+	private PlantService plantService;
 
 	private String apiPath = "/api/v1/plant/";
 
@@ -44,7 +44,7 @@ public class PlantControllerTest {
 		Plant plant2 = new Plant(UUID.randomUUID());
 		List<Plant> plants = List.of(plant1, plant2);
 
-		when(letItTreeService.getAllPlants()).thenReturn(plants);
+		when(plantService.getAllPlants()).thenReturn(plants);
 
 		mockMvc.perform(MockMvcRequestBuilders
 				.get(apiPath).accept(MediaType.APPLICATION_JSON))
@@ -56,7 +56,7 @@ public class PlantControllerTest {
 	void givenController_whenGetAllPlantsEmpty_thenResponseOkSize0() throws Exception {
 		List<Plant> plants = List.of();
 
-		when(letItTreeService.getAllPlants()).thenReturn(plants);
+		when(plantService.getAllPlants()).thenReturn(plants);
 
 		mockMvc.perform(MockMvcRequestBuilders
 				.get(apiPath).accept(MediaType.APPLICATION_JSON))
@@ -68,7 +68,7 @@ public class PlantControllerTest {
 	void givenController_whenGetByIdAndServiceEmpty_thenRespondsNotFound() throws Exception {
 		UUID id = UUID.randomUUID();
 
-		when(letItTreeService.getPlantById(id)).thenReturn(Optional.empty());
+		when(plantService.getPlantById(id)).thenReturn(Optional.empty());
 
 		mockMvc.perform(MockMvcRequestBuilders.get(apiPath + "/" + id.toString()))
 				.andExpect(MockMvcResultMatchers.status().isNotFound());
@@ -79,7 +79,7 @@ public class PlantControllerTest {
 		UUID id = UUID.randomUUID();
 		Plant plant = new Plant(id);
 
-		when(letItTreeService.getPlantById(id)).thenReturn(Optional.of(plant));
+		when(plantService.getPlantById(id)).thenReturn(Optional.of(plant));
 
 		mockMvc.perform(MockMvcRequestBuilders.get(apiPath + "/" + id.toString()))
 				.andDo(MockMvcResultHandlers.print())
@@ -91,7 +91,7 @@ public class PlantControllerTest {
 	void givenController_whenAddPlant_thenRespondsCreated() throws Exception {
 		Plant savedPlant = new Plant(UUID.randomUUID());
 
-		when(letItTreeService.addPlant(any(Plant.class))).thenReturn(savedPlant);
+		when(plantService.addPlant(any(Plant.class))).thenReturn(savedPlant);
 		var requestBody = "{ \"id\": \"" + savedPlant.getId().toString() + "\" }";
 
 		mockMvc.perform(MockMvcRequestBuilders
@@ -104,7 +104,7 @@ public class PlantControllerTest {
 	@Test
 	void givenController_whenDeleteExistingPlant_thenRespondsNoContent() throws Exception {
 		UUID id = UUID.randomUUID();
-		when(letItTreeService.exists(id)).thenReturn(true);
+		when(plantService.exists(id)).thenReturn(true);
 
 		mockMvc.perform(MockMvcRequestBuilders
 				.delete(apiPath + "/" + id.toString()))
@@ -114,7 +114,7 @@ public class PlantControllerTest {
 	@Test
 	void givenController_whenDeleteMissingPlant_thenRespondsNotFound() throws Exception {
 		UUID id = UUID.randomUUID();
-		when(letItTreeService.exists(id)).thenReturn(false);
+		when(plantService.exists(id)).thenReturn(false);
 
 		mockMvc.perform(MockMvcRequestBuilders
 				.delete(apiPath + "/" + id.toString()))
@@ -125,7 +125,7 @@ public class PlantControllerTest {
 	void givenController_whenUpdateMissingPlant_thenRespondsNotFound() throws Exception {
 		Plant plant = new Plant(UUID.randomUUID());
 
-		when(letItTreeService.exists(plant.getId())).thenReturn(false);
+		when(plantService.exists(plant.getId())).thenReturn(false);
 		var requestBody = "{ \"id\": \"" + plant.getId().toString() + "\" }";
 
 		mockMvc.perform(MockMvcRequestBuilders
@@ -134,7 +134,7 @@ public class PlantControllerTest {
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isNotFound());
 
-		verify(letItTreeService, times(0)).updatePlant(plant.getId(), plant);
+		verify(plantService, times(0)).updatePlant(plant.getId(), plant);
 	}
 
 	@Test
@@ -143,8 +143,8 @@ public class PlantControllerTest {
 
 		ArgumentCaptor<Plant> plantCaptor = ArgumentCaptor.forClass(Plant.class);
 
-		when(letItTreeService.exists(any(UUID.class))).thenReturn(true);
-		doNothing().when(letItTreeService).updatePlant(any(UUID.class), plantCaptor.capture());
+		when(plantService.exists(any(UUID.class))).thenReturn(true);
+		doNothing().when(plantService).updatePlant(any(UUID.class), plantCaptor.capture());
 		var requestBody = "{ \"id\": \"" + plant.getId().toString() + "\" }";
 
 		mockMvc.perform(MockMvcRequestBuilders

@@ -31,13 +31,13 @@ public class PlantServiceTest {
 	private PlantRepository mockPlantRepository;
 
 	@InjectMocks
-	private PlantService letItTreeService;
+	private PlantService plantSertvice;
 
 	@Test
 	void givenEmptyRepository_whenGetAllPlants_thenReturnsEmptyArray() {
 		when(mockPlantRepository.findAllPlants()).thenReturn(new ArrayList<>());
 
-		List<Plant> result = letItTreeService.getAllPlants();
+		List<Plant> result = plantSertvice.getAllPlants();
 		assertEquals(0, result.size());
 	}
 
@@ -49,7 +49,7 @@ public class PlantServiceTest {
 
 		when(mockPlantRepository.findAllPlants()).thenReturn(plants);
 
-		List<Plant> result = letItTreeService.getAllPlants();
+		List<Plant> result = plantSertvice.getAllPlants();
 		assertEquals(2, result.size());
 		Set<Plant> expectedSet = new HashSet<>(plants);
 		Set<Plant> resultSet = new HashSet<>(result);
@@ -66,7 +66,7 @@ public class PlantServiceTest {
 
 		when(mockPlantRepository.findAllPlants()).thenReturn(plants);
 
-		List<Plant> result = letItTreeService.getPlantsToBeWatered();
+		List<Plant> result = plantSertvice.getPlantsToBeWatered();
 		assertEquals(1, result.size());
 		assertTrue(plant1.getId().equals(result.get(0).getId()));
 	}
@@ -78,7 +78,7 @@ public class PlantServiceTest {
 
 		when(mockPlantRepository.findById(id)).thenReturn(Optional.of(plant));
 
-		Optional<Plant> result = letItTreeService.getPlantById(id);
+		Optional<Plant> result = plantSertvice.getPlantById(id);
 		assertTrue(result.isPresent());
 		assertTrue(id.equals(result.get().getId()));
 	}
@@ -89,7 +89,7 @@ public class PlantServiceTest {
 
 		when(mockPlantRepository.findById(id)).thenReturn(Optional.empty());
 
-		Optional<Plant> result = letItTreeService.getPlantById(id);
+		Optional<Plant> result = plantSertvice.getPlantById(id);
 		assertTrue(result.isEmpty());
 	}
 
@@ -99,7 +99,7 @@ public class PlantServiceTest {
 
 		when(mockPlantRepository.existById(id)).thenReturn(true);
 
-		assertTrue(letItTreeService.exists(id));
+		assertTrue(plantSertvice.exists(id));
 		verify(mockPlantRepository).existById(id);
 	}
 
@@ -109,7 +109,7 @@ public class PlantServiceTest {
 
 		when(mockPlantRepository.existById(id)).thenReturn(false);
 
-		assertFalse(letItTreeService.exists(id));
+		assertFalse(plantSertvice.exists(id));
 		verify(mockPlantRepository).existById(id);
 	}
 
@@ -120,7 +120,7 @@ public class PlantServiceTest {
 
 		when(mockPlantRepository.addPlant(newPlant)).thenReturn(newPlant);
 
-		Plant response = letItTreeService.addPlant(newPlant);
+		Plant response = plantSertvice.addPlant(newPlant);
 		assertEquals(id, response.getId());
 		verify(mockPlantRepository).addPlant(newPlant);
 	}
@@ -130,7 +130,7 @@ public class PlantServiceTest {
 		UUID id = UUID.randomUUID();
 		Plant updatedPlant = new Plant(id, 1);
 
-		letItTreeService.updatePlant(id, updatedPlant);
+		plantSertvice.updatePlant(id, updatedPlant);
 		verify(mockPlantRepository).updateById(id, updatedPlant);
 	}
 
@@ -138,7 +138,7 @@ public class PlantServiceTest {
 	void givenService_whenDeletePlant_thenRepositoryDeleteByIdIsCalled() {
 		UUID id = UUID.randomUUID();
 
-		letItTreeService.deletePlant(id);
+		plantSertvice.deletePlant(id);
 		verify(mockPlantRepository).deleteById(id);
 	}
 }

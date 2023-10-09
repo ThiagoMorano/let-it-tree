@@ -22,21 +22,21 @@ import com.github.thiagomorano.letittree.service.PlantService;
 @RequestMapping("api/v1/plant")
 @RestController
 public class PlantController {
-	private PlantService letItTreeService;
+	private PlantService plantService;
 
 	@Autowired
 	public PlantController(PlantService service) {
-		this.letItTreeService = service;
+		this.plantService = service;
 	}
 
 	@GetMapping(path = "/", produces = "application/json")
 	public List<Plant> getAllPlants() {
-		return this.letItTreeService.getAllPlants();
+		return this.plantService.getAllPlants();
 	}
 
 	@GetMapping(path = "/{id}", produces = "application/json")
 	public ResponseEntity<Plant> getById(@PathVariable UUID id) {
-		Optional<Plant> optionalPlant = this.letItTreeService.getPlantById(id);
+		Optional<Plant> optionalPlant = this.plantService.getPlantById(id);
 		if (optionalPlant.isPresent()) {
 			return ResponseEntity.ok(optionalPlant.get());
 		} else {
@@ -47,14 +47,14 @@ public class PlantController {
 	@PostMapping(path = "/", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Plant> addPlant(@RequestBody Plant plant) {
 		// @TODO: evaluate returning the newly added object
-		Plant addedPlant = this.letItTreeService.addPlant(plant);
+		Plant addedPlant = this.plantService.addPlant(plant);
 		return ResponseEntity.status(HttpStatus.CREATED).body(addedPlant);
 	}
 
 	@PutMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Void> updatePlant(@PathVariable UUID id, @RequestBody Plant plant) {
-		if (letItTreeService.exists(id)) {
-			this.letItTreeService.updatePlant(id, plant);
+		if (plantService.exists(id)) {
+			this.plantService.updatePlant(id, plant);
 			return ResponseEntity.noContent().build();
 		}
 		return ResponseEntity.notFound().build();
@@ -62,8 +62,8 @@ public class PlantController {
 
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<Void> deletePlant(@PathVariable UUID id) {
-		if (this.letItTreeService.exists(id)) {
-			this.letItTreeService.deletePlant(id);
+		if (this.plantService.exists(id)) {
+			this.plantService.deletePlant(id);
 			return ResponseEntity.noContent().build();
 		}
 		return ResponseEntity.notFound().build();
