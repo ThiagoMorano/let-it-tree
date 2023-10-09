@@ -25,4 +25,10 @@ public class FakePlantRepository implements PlantRepository {
 		return result;
 	}
 
+	@Override
+	public Plant addPlant(Plant plant) {
+		plantDatabase.add(plant);
+		return plant;
+	}
+
 }

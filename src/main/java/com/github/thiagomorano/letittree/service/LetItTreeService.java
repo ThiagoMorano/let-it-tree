@@ -46,4 +46,8 @@ public class LetItTreeService {
 	public Optional<Plant> getPlantById(Long id) {
 		return plantRepository.findById(id);
 	}
+
+	public Plant addPlant(Plant plant) {
+		return plantRepository.addPlant(plant);
+	}
 }

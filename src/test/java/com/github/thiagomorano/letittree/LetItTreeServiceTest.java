@@ -2,6 +2,7 @@ package com.github.thiagomorano.letittree;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -88,5 +89,17 @@ public class LetItTreeServiceTest {
 
 		Optional<Plant> result = letItTreeService.getPlantById(id);
 		assertTrue(result.isEmpty());
+	}
+
+	@Test
+	void givenService_whenAddPlant_thenReturnsAddedPlant() {
+		Long id = 123L;
+		Plant newPlant = new Plant(id);
+
+		when(mockPlantRepository.addPlant(newPlant)).thenReturn(newPlant);
+
+		Plant response = letItTreeService.addPlant(newPlant);
+		assertEquals(id, response.getId());
+		verify(mockPlantRepository).addPlant(newPlant);
 	}
 }

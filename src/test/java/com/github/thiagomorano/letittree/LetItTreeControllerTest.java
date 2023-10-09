@@ -1,6 +1,7 @@
 package com.github.thiagomorano.letittree;
 
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
 
 import java.util.List;
 import java.util.Optional;
@@ -78,5 +79,19 @@ public class LetItTreeControllerTest {
 				.andDo(MockMvcResultHandlers.print())
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(id));
+	}
+
+	@Test
+	void givenController_whenAddPlant_thenRespondsCreated() throws Exception {
+		Plant savedPlant = new Plant(1L);
+
+		when(letItTreeService.addPlant(any(Plant.class))).thenReturn(savedPlant);
+		var requestBody = "{ \"id\": " + savedPlant.getId() + " }";
+
+		mockMvc.perform(MockMvcRequestBuilders
+				.post(apiPath + "/")
+				.content(requestBody)
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().isCreated());
 	}
 }

@@ -9,4 +9,6 @@ public interface PlantRepository {
 	List<Plant> findAllPlants();
 
 	Optional<Plant> findById(Long id);
+
+	Plant addPlant(Plant plant);
 }
