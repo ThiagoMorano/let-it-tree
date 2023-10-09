@@ -51,4 +51,8 @@ public class PlantService {
 	public Plant addPlant(Plant plant) {
 		return plantRepository.addPlant(plant);
 	}
+
+	public boolean deletePlant(UUID id) {
+		return plantRepository.deleteById(id);
+	}
 }

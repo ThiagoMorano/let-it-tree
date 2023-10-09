@@ -1,6 +1,7 @@
 package com.github.thiagomorano.letittree;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -102,5 +103,35 @@ public class PlantServiceTest {
 		Plant response = letItTreeService.addPlant(newPlant);
 		assertEquals(id, response.getId());
 		verify(mockPlantRepository).addPlant(newPlant);
+	}
+
+	@Test
+	void givenService_whenDeletePlant_thenRepositoryDeleteByIdIsCalled() {
+		UUID id = UUID.randomUUID();
+
+		letItTreeService.deletePlant(id);
+		verify(mockPlantRepository).deleteById(id);
+	}
+
+	@Test
+	void givenService_whenDeleteExistingPlant_thenReturnTrue() {
+		UUID id = UUID.randomUUID();
+
+		when(mockPlantRepository.deleteById(id)).thenReturn(true);
+
+		boolean response = letItTreeService.deletePlant(id);
+		verify(mockPlantRepository).deleteById(id);
+		assertTrue(response);
+	}
+
+	@Test
+	void givenService_whenDeleteMissingPlant_thenReturnFalse() {
+		UUID id = UUID.randomUUID();
+
+		when(mockPlantRepository.deleteById(id)).thenReturn(false);
+
+		boolean response = letItTreeService.deletePlant(id);
+		verify(mockPlantRepository).deleteById(id);
+		assertFalse(response);
 	}
 }

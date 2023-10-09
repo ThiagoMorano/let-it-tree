@@ -95,4 +95,24 @@ public class PlantControllerTest {
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isCreated());
 	}
+
+	@Test
+	void givenController_whenDeleteExistingPlant_thenRespondsNoContent() throws Exception {
+		UUID id = UUID.randomUUID();
+		when(letItTreeService.deletePlant(id)).thenReturn(true);
+
+		mockMvc.perform(MockMvcRequestBuilders
+				.delete(apiPath + "/" + id.toString()))
+				.andExpect(MockMvcResultMatchers.status().isNoContent());
+	}
+
+	@Test
+	void givenController_whenDeleteMissingPlant_thenRespondsNotFound() throws Exception {
+		UUID id = UUID.randomUUID();
+		when(letItTreeService.deletePlant(id)).thenReturn(false);
+
+		mockMvc.perform(MockMvcRequestBuilders
+				.delete(apiPath + "/" + id.toString()))
+				.andExpect(MockMvcResultMatchers.status().isNotFound());
+	}
 }

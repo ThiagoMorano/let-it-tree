@@ -32,4 +32,14 @@ public class FakePlantRepository implements PlantRepository {
 		plantDatabase.add(newPlant);
 		return newPlant;
 	}
+
+	@Override
+	public boolean deleteById(UUID id) {
+		Optional<Plant> plant = findById(id);
+		if (plant.isEmpty()) {
+			return false;
+		}
+		plantDatabase.remove(plant.get());
+		return true;
+	}
 }

@@ -17,4 +17,6 @@ public interface PlantRepository {
 	}
 
 	Plant addPlant(UUID id, Plant plant);
+
+	boolean deleteById(UUID id);
 }
