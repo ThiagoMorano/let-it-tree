@@ -94,6 +94,26 @@ public class PlantServiceTest {
 	}
 
 	@Test
+	void givenExistingPlant_whenExistsById_thenReturnsTrue() {
+		UUID id = UUID.randomUUID();
+
+		when(mockPlantRepository.existById(id)).thenReturn(true);
+
+		assertTrue(letItTreeService.exists(id));
+		verify(mockPlantRepository).existById(id);
+	}
+
+	@Test
+	void givenMissingPlant_whenExistsById_thenReturnsFalse() {
+		UUID id = UUID.randomUUID();
+
+		when(mockPlantRepository.existById(id)).thenReturn(false);
+
+		assertFalse(letItTreeService.exists(id));
+		verify(mockPlantRepository).existById(id);
+	}
+
+	@Test
 	void givenService_whenAddPlant_thenReturnsAddedPlant() {
 		UUID id = UUID.randomUUID();
 		Plant newPlant = new Plant(id);
@@ -111,27 +131,5 @@ public class PlantServiceTest {
 
 		letItTreeService.deletePlant(id);
 		verify(mockPlantRepository).deleteById(id);
-	}
-
-	@Test
-	void givenService_whenDeleteExistingPlant_thenReturnTrue() {
-		UUID id = UUID.randomUUID();
-
-		when(mockPlantRepository.deleteById(id)).thenReturn(true);
-
-		boolean response = letItTreeService.deletePlant(id);
-		verify(mockPlantRepository).deleteById(id);
-		assertTrue(response);
-	}
-
-	@Test
-	void givenService_whenDeleteMissingPlant_thenReturnFalse() {
-		UUID id = UUID.randomUUID();
-
-		when(mockPlantRepository.deleteById(id)).thenReturn(false);
-
-		boolean response = letItTreeService.deletePlant(id);
-		verify(mockPlantRepository).deleteById(id);
-		assertFalse(response);
 	}
 }

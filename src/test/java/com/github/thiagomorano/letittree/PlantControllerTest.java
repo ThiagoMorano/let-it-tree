@@ -99,7 +99,7 @@ public class PlantControllerTest {
 	@Test
 	void givenController_whenDeleteExistingPlant_thenRespondsNoContent() throws Exception {
 		UUID id = UUID.randomUUID();
-		when(letItTreeService.deletePlant(id)).thenReturn(true);
+		when(letItTreeService.exists(id)).thenReturn(true);
 
 		mockMvc.perform(MockMvcRequestBuilders
 				.delete(apiPath + "/" + id.toString()))
@@ -109,7 +109,7 @@ public class PlantControllerTest {
 	@Test
 	void givenController_whenDeleteMissingPlant_thenRespondsNotFound() throws Exception {
 		UUID id = UUID.randomUUID();
-		when(letItTreeService.deletePlant(id)).thenReturn(false);
+		when(letItTreeService.exists(id)).thenReturn(false);
 
 		mockMvc.perform(MockMvcRequestBuilders
 				.delete(apiPath + "/" + id.toString()))

@@ -34,12 +34,19 @@ public class FakePlantRepository implements PlantRepository {
 	}
 
 	@Override
-	public boolean deleteById(UUID id) {
+	public void deleteById(UUID id) {
+		Optional<Plant> plant = findById(id);
+		if (plant.isPresent()) {
+			plantDatabase.remove(plant.get());
+		}
+	}
+
+	@Override
+	public boolean existById(UUID id) {
 		Optional<Plant> plant = findById(id);
 		if (plant.isEmpty()) {
 			return false;
 		}
-		plantDatabase.remove(plant.get());
 		return true;
 	}
 }

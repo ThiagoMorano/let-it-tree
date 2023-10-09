@@ -52,7 +52,11 @@ public class PlantService {
 		return plantRepository.addPlant(plant);
 	}
 
-	public boolean deletePlant(UUID id) {
-		return plantRepository.deleteById(id);
+	public void deletePlant(UUID id) {
+		plantRepository.deleteById(id);
+	}
+
+	public boolean exists(UUID id) {
+		return plantRepository.existById(id);
 	}
 }

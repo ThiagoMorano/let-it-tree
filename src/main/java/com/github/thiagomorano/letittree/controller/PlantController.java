@@ -52,11 +52,10 @@ public class PlantController {
 
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<Void> deletePlant(@PathVariable UUID id) {
-		boolean result = this.letItTreeService.deletePlant(id);
-		if (result) {
+		if (this.letItTreeService.exists(id)) {
+			this.letItTreeService.deletePlant(id);
 			return ResponseEntity.noContent().build();
-		} else {
-			return ResponseEntity.notFound().build();
 		}
+		return ResponseEntity.notFound().build();
 	}
 }
