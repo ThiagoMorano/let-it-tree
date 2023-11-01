@@ -1,7 +1,7 @@
 package com.github.thiagomorano.letittree.service;
 
 import java.time.LocalDate;
-import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -36,8 +36,7 @@ public class PlantService {
 		LocalDate today = LocalDate.now();
 		List<Plant> plantsToBeWatered = plantsList.stream()
 				.filter(plant -> {
-					Period periodSinceLastWater = Period.between(plant.getLastWateringDate(), today);
-					int daysSinceLastWater = periodSinceLastWater.getDays();
+					long daysSinceLastWater = ChronoUnit.DAYS.between(plant.getLastWateringDate(), today);
 
 					return daysSinceLastWater > plant.getDaysBetweenWatering();
 				}).collect(Collectors.toList());
