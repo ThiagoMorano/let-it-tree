@@ -1,5 +1,13 @@
+FROM eclipse-temurin:17-jre-alpine as builder
+WORKDIR /opt/app
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:go-offline
+COPY ./src ./src
+RUN ./mvnw clean install
+
 FROM eclipse-temurin:17-jre-alpine
-WORKDIR /app
-COPY target/let-it-tree.jar let-it-tree.jar
+WORKDIR /opt/app
 EXPOSE 8080
-CMD ["java", "-jar", "let-it-tree.jar"]
+COPY --from=builder /opt/app/target/*.jar /opt/app/*.jar
+ENTRYPOINT ["java", "-jar", "/opt/app/*.jar" ]
