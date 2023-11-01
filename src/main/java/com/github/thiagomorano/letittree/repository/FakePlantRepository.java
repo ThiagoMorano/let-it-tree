@@ -14,7 +14,7 @@ public class FakePlantRepository implements PlantRepository {
 	private List<Plant> plantDatabase = new ArrayList<>();
 
 	@Override
-	public List<Plant> findAllPlants() {
+	public List<Plant> findAll() {
 		return plantDatabase;
 	}
 
@@ -27,7 +27,7 @@ public class FakePlantRepository implements PlantRepository {
 	}
 
 	@Override
-	public Plant addPlant(UUID id, Plant plant) {
+	public Plant save(UUID id, Plant plant) {
 		Plant newPlant = new Plant(id, plant.getName(), plant.getDaysBetweenWatering(), plant.getLastWateringDate());
 		plantDatabase.add(newPlant);
 		return newPlant;

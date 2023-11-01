@@ -23,7 +23,7 @@ public class PlantService {
 	}
 
 	public List<Plant> getAllPlants() {
-		return plantRepository.findAllPlants();
+		return plantRepository.findAll();
 	}
 
 	public List<Plant> getPlantsToWater() {
@@ -32,7 +32,7 @@ public class PlantService {
 
 		// @TODO: evaluate extracting a date filter that depends on
 		// a custom date provider
-		List<Plant> plantsList = plantRepository.findAllPlants();
+		List<Plant> plantsList = plantRepository.findAll();
 		LocalDate today = LocalDate.now();
 		List<Plant> plantsToBeWatered = plantsList.stream()
 				.filter(plant -> {
@@ -49,7 +49,7 @@ public class PlantService {
 	}
 
 	public Plant addPlant(Plant plant) {
-		return plantRepository.addPlant(plant);
+		return plantRepository.save(plant);
 	}
 
 	public void updatePlant(UUID id, Plant plant) {

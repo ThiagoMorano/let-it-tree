@@ -35,7 +35,7 @@ public class PlantServiceTest {
 
 	@Test
 	void givenEmptyRepository_whenGetAllPlants_thenReturnsEmptyArray() {
-		when(mockPlantRepository.findAllPlants()).thenReturn(new ArrayList<>());
+		when(mockPlantRepository.findAll()).thenReturn(new ArrayList<>());
 
 		List<Plant> result = plantSertvice.getAllPlants();
 		assertEquals(0, result.size());
@@ -47,7 +47,7 @@ public class PlantServiceTest {
 		Plant plant2 = new Plant(UUID.randomUUID());
 		List<Plant> plants = List.of(plant1, plant2);
 
-		when(mockPlantRepository.findAllPlants()).thenReturn(plants);
+		when(mockPlantRepository.findAll()).thenReturn(plants);
 
 		List<Plant> result = plantSertvice.getAllPlants();
 		assertEquals(2, result.size());
@@ -64,7 +64,7 @@ public class PlantServiceTest {
 		Plant plant2 = new Plant(UUID.randomUUID(), 1, today);
 		List<Plant> plants = List.of(plant1, plant2);
 
-		when(mockPlantRepository.findAllPlants()).thenReturn(plants);
+		when(mockPlantRepository.findAll()).thenReturn(plants);
 
 		List<Plant> result = plantSertvice.getPlantsToWater();
 		assertEquals(1, result.size());
@@ -118,11 +118,11 @@ public class PlantServiceTest {
 		UUID id = UUID.randomUUID();
 		Plant newPlant = new Plant(id);
 
-		when(mockPlantRepository.addPlant(newPlant)).thenReturn(newPlant);
+		when(mockPlantRepository.save(newPlant)).thenReturn(newPlant);
 
 		Plant response = plantSertvice.addPlant(newPlant);
 		assertEquals(id, response.getId());
-		verify(mockPlantRepository).addPlant(newPlant);
+		verify(mockPlantRepository).save(newPlant);
 	}
 
 	@Test
