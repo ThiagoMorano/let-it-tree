@@ -6,13 +6,14 @@ Let it tree is a small service to help track plants that need watering.
 A personal project to experiment with Spring Boot and backend development with Java, it was bootstrapped using [Spring initializr](https://start.spring.io/)
 
 ## Prerequisites
-* Java 17 or higher
+* Java 17 or higher to work on the project
+* Docker for running the project
 
 ## Usage
 To run the project, you can use Docker Compose to set up both the application and its PostgreSQL database by running
 `$ docker-compose up`
 
-To run the tests suites, you can use the following Maven command
+To run the test suites, you can use the following Maven command
 `$ ./mvnw test`
 
 ## API Endpoints
