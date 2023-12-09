@@ -60,6 +60,6 @@ public class PlantService {
 	}
 
 	public boolean exists(UUID id) {
-		return plantRepository.existById(id);
+		return plantRepository.existsById(id);
 	}
 }

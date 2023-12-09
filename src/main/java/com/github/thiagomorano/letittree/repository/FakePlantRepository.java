@@ -42,7 +42,7 @@ public class FakePlantRepository implements PlantRepository {
 	}
 
 	@Override
-	public boolean existById(UUID id) {
+	public boolean existsById(UUID id) {
 		Optional<Plant> plant = findById(id);
 		if (plant.isEmpty()) {
 			return false;

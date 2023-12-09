@@ -97,20 +97,20 @@ public class PlantServiceTest {
 	void givenExistingPlant_whenExistsById_thenReturnsTrue() {
 		UUID id = UUID.randomUUID();
 
-		when(mockPlantRepository.existById(id)).thenReturn(true);
+		when(mockPlantRepository.existsById(id)).thenReturn(true);
 
 		assertTrue(plantSertvice.exists(id));
-		verify(mockPlantRepository).existById(id);
+		verify(mockPlantRepository).existsById(id);
 	}
 
 	@Test
 	void givenMissingPlant_whenExistsById_thenReturnsFalse() {
 		UUID id = UUID.randomUUID();
 
-		when(mockPlantRepository.existById(id)).thenReturn(false);
+		when(mockPlantRepository.existsById(id)).thenReturn(false);
 
 		assertFalse(plantSertvice.exists(id));
-		verify(mockPlantRepository).existById(id);
+		verify(mockPlantRepository).existsById(id);
 	}
 
 	@Test

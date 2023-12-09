@@ -22,5 +22,5 @@ public interface PlantRepository {
 
 	void deleteById(UUID id);
 
-	boolean existById(UUID id);
+	boolean existsById(UUID id);
 }
