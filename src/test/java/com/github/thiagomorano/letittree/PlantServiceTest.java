@@ -3,6 +3,7 @@ package com.github.thiagomorano.letittree;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -130,8 +131,10 @@ public class PlantServiceTest {
 		UUID id = UUID.randomUUID();
 		Plant updatedPlant = new Plant(id, 1);
 
+		// @TODO: needs refactoring together with updatePlant
 		plantSertvice.updatePlant(id, updatedPlant);
-		verify(mockPlantRepository).updateById(id, updatedPlant);
+		// verify(mockPlantRepository).updatePlant(id, updatedPlant);
+		fail("needs refactoring together with updatePlant");
 	}
 
 	@Test

@@ -3,12 +3,26 @@ package com.github.thiagomorano.letittree.model;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="PLANT")
 public class Plant {
+	@Id
+	@Column(name="PLANT_ID")
 	private final UUID id;
+	@Column(name="NAME")
 	private String name;
+	@Column(name="LAST_WATERING_DATE")
 	private LocalDate lastWateringDate = LocalDate.MIN;
+	@Column(name="DAYS_BETWEEN_WATERING")
 	private int daysBetweenWatering;
 
 	public Plant(UUID id) {
@@ -28,6 +42,7 @@ public class Plant {
 		this.lastWateringDate = lastWateringDate;
 	}
 
+	@Autowired
 	public Plant(
 			@JsonProperty("id") UUID id,
 			@JsonProperty("name") String name,

@@ -28,7 +28,7 @@ public class PlantService {
 
 	public List<Plant> getPlantsToWater() {
 		// @TODO: evaluate whether filtering should be performed
-		// in the repository layer in query level
+		// in the repository layer at query level
 
 		// @TODO: evaluate extracting a date filter that depends on
 		// a custom date provider
@@ -52,7 +52,8 @@ public class PlantService {
 	}
 
 	public void updatePlant(UUID id, Plant plant) {
-		plantRepository.updateById(id, plant);
+		// plantRepository.updatePlant(id, plant);
+		// @TODO: implement update feature
 	}
 
 	public void deletePlant(UUID id) {
