@@ -11,7 +11,7 @@ A personal project to experiment with Spring Boot and backend development with J
 
 ## Usage
 To run the project, you can use Docker Compose to set up both the application and its PostgreSQL database by running
-`$ docker-compose up`
+`$ docker-compose up --force-recreate --build`
 
 To run the test suites, you can use the following Maven command
 `$ ./mvnw test`
