@@ -2,7 +2,6 @@ package com.github.thiagomorano.letittree.controller;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +34,7 @@ public class PlantController {
 	}
 
 	@GetMapping(path = "/{id}", produces = "application/json")
-	public ResponseEntity<Plant> getById(@PathVariable UUID id) {
+	public ResponseEntity<Plant> getById(@PathVariable Long id) {
 		Optional<Plant> optionalPlant = this.plantService.getPlantById(id);
 		if (optionalPlant.isPresent()) {
 			return ResponseEntity.ok(optionalPlant.get());
@@ -57,7 +56,7 @@ public class PlantController {
 	}
 
 	@PutMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Void> updatePlant(@PathVariable UUID id, @RequestBody Plant plant) {
+	public ResponseEntity<Void> updatePlant(@PathVariable Long id, @RequestBody Plant plant) {
 		if (plantService.exists(id)) {
 			this.plantService.updatePlant(id, plant);
 			return ResponseEntity.noContent().build();
@@ -66,7 +65,7 @@ public class PlantController {
 	}
 
 	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<Void> deletePlant(@PathVariable UUID id) {
+	public ResponseEntity<Void> deletePlant(@PathVariable Long id) {
 		if (this.plantService.exists(id)) {
 			this.plantService.deletePlant(id);
 			return ResponseEntity.noContent().build();

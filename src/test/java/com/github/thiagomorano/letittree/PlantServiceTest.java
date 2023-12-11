@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,8 +44,8 @@ public class PlantServiceTest {
 
 	@Test
 	void givenRepository_whenGetAllPlants_thenReturnsExistingPlants() {
-		Plant plant1 = new Plant(UUID.randomUUID());
-		Plant plant2 = new Plant(UUID.randomUUID());
+		Plant plant1 = new Plant(1L);
+		Plant plant2 = new Plant(2L);
 		List<Plant> plants = List.of(plant1, plant2);
 
 		when(mockPlantRepository.findAll()).thenReturn(plants);
@@ -62,8 +61,8 @@ public class PlantServiceTest {
 	void givenFilledRepository_whenGetPlantsToWater_thenReturnsOnlyPlantsPastWaterDate() {
 		// @TODO: revisit this once custom filter is extracted
 		LocalDate today = LocalDate.now();
-		Plant plant1 = new Plant(UUID.randomUUID(), 1, LocalDate.MIN);
-		Plant plant2 = new Plant(UUID.randomUUID(), 1, today);
+		Plant plant1 = new Plant(1L, 1, LocalDate.MIN);
+		Plant plant2 = new Plant(2L, 1, today);
 		List<Plant> plants = List.of(plant1, plant2);
 
 		when(mockPlantRepository.findAll()).thenReturn(plants);
@@ -75,7 +74,7 @@ public class PlantServiceTest {
 
 	@Test
 	void givenPlantInRepository_whenGetPlantById_thenReturnsCorrectPlant() {
-		UUID id = UUID.randomUUID();
+		Long id = 1L;
 		Plant plant = new Plant(id);
 
 		when(mockPlantRepository.findById(id)).thenReturn(Optional.of(plant));
@@ -87,7 +86,7 @@ public class PlantServiceTest {
 
 	@Test
 	void givenPlantNotInRepository_whenGetPlantById_thenReturnsNull() {
-		UUID id = UUID.randomUUID();
+		Long id = 1L;
 
 		when(mockPlantRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -97,7 +96,7 @@ public class PlantServiceTest {
 
 	@Test
 	void givenExistingPlant_whenExistsById_thenReturnsTrue() {
-		UUID id = UUID.randomUUID();
+		Long id = 1L;
 
 		when(mockPlantRepository.existsById(id)).thenReturn(true);
 
@@ -107,7 +106,7 @@ public class PlantServiceTest {
 
 	@Test
 	void givenMissingPlant_whenExistsById_thenReturnsFalse() {
-		UUID id = UUID.randomUUID();
+		Long id = 1L;
 
 		when(mockPlantRepository.existsById(id)).thenReturn(false);
 
@@ -117,7 +116,7 @@ public class PlantServiceTest {
 
 	@Test
 	void givenService_whenAddPlant_thenReturnsAddedPlant() {
-		UUID id = UUID.randomUUID();
+		Long id = 1L;
 		Plant newPlant = new Plant(id);
 
 		when(mockPlantRepository.save(newPlant)).thenReturn(newPlant);
@@ -129,12 +128,12 @@ public class PlantServiceTest {
 
 	@Test
 	void givenService_whenUpdateExistingPlant_thenCallsRepositorySave() {
-		UUID id = UUID.randomUUID();
+		Long id = 1L;
 		Plant updatedPlant = new Plant(id, 1);
 		Plant existingPlant = new Plant(id);
 
 		ArgumentCaptor<Plant> plantCaptor = ArgumentCaptor.forClass(Plant.class);
-		when(mockPlantRepository.findById(any(UUID.class))).thenReturn(Optional.of(existingPlant));
+		when(mockPlantRepository.findById(any(Long.class))).thenReturn(Optional.of(existingPlant));
 
 		plantSertvice.updatePlant(id, updatedPlant);
 
@@ -145,7 +144,7 @@ public class PlantServiceTest {
 
 	@Test
 	void givenService_whenDeletePlant_thenRepositoryDeleteByIdIsCalled() {
-		UUID id = UUID.randomUUID();
+		Long id = 1L;
 
 		plantSertvice.deletePlant(id);
 		verify(mockPlantRepository).deleteById(id);

@@ -28,7 +28,7 @@ This endpoint returns an individual plant by ID. The ID is provided as a URI par
 Responds with a 404 response conde in case no plant of given ID was found. Otherwise returns a 200 response code, and a plant in given format:
 ```
 body: {
-    id: String, /* UUID */
+    id: Number, /* Long */
     name: String,
     lastWateringDate: String,
     daysBetweenWatering: Number /* int */

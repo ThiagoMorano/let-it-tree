@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,7 @@ public class PlantService {
 		return plantsToBeWatered;
 	}
 
-	public Optional<Plant> getPlantById(UUID id) {
+	public Optional<Plant> getPlantById(Long id) {
 		return plantRepository.findById(id);
 	}
 
@@ -51,7 +50,7 @@ public class PlantService {
 		return plantRepository.save(plant);
 	}
 
-	public void updatePlant(UUID id, Plant plant) {
+	public void updatePlant(Long id, Plant plant) {
 		// @TODO: create custom exception
 		Plant existingPlant = plantRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException(String.format("Plant of %id not found", id)));
@@ -61,11 +60,11 @@ public class PlantService {
 		plantRepository.save(existingPlant);
 	}
 
-	public void deletePlant(UUID id) {
+	public void deletePlant(Long id) {
 		plantRepository.deleteById(id);
 	}
 
-	public boolean exists(UUID id) {
+	public boolean exists(Long id) {
 		return plantRepository.existsById(id);
 	}
 }

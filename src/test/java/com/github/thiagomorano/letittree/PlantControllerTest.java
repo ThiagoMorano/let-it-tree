@@ -10,7 +10,6 @@ import static org.mockito.ArgumentMatchers.any;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -40,8 +39,8 @@ public class PlantControllerTest {
 
 	@Test
 	void givenController_whenGetAllPlantsNotEmpty_thenResponseIsOk() throws Exception {
-		Plant plant1 = new Plant(UUID.randomUUID());
-		Plant plant2 = new Plant(UUID.randomUUID());
+		Plant plant1 = new Plant(1L);
+		Plant plant2 = new Plant(2L);
 		List<Plant> plants = List.of(plant1, plant2);
 
 		when(plantService.getAllPlants()).thenReturn(plants);
@@ -66,7 +65,7 @@ public class PlantControllerTest {
 
 	@Test
 	void givenController_whenGetByIdAndServiceEmpty_thenRespondsNotFound() throws Exception {
-		UUID id = UUID.randomUUID();
+		Long id = 1L;
 
 		when(plantService.getPlantById(id)).thenReturn(Optional.empty());
 
@@ -76,7 +75,7 @@ public class PlantControllerTest {
 
 	@Test
 	void givenController_whenGetByIdAndServiceContains_thenRespondsOk() throws Exception {
-		UUID id = UUID.randomUUID();
+		Long id = 1L;
 		Plant plant = new Plant(id);
 
 		when(plantService.getPlantById(id)).thenReturn(Optional.of(plant));
@@ -89,8 +88,8 @@ public class PlantControllerTest {
 
 	@Test
 	void givenListOfPlants_whenGetPlantsToWater_thenRespondsOk() throws Exception {
-		Plant plant1 = new Plant(UUID.randomUUID(), "Plant1", 1, LocalDate.now());
-		Plant plant2 = new Plant(UUID.randomUUID(), "Plant2", 2, LocalDate.now());
+		Plant plant1 = new Plant(1L, "Plant1", 1, LocalDate.now());
+		Plant plant2 = new Plant(2L, "Plant2", 2, LocalDate.now());
 		List<Plant> plants = List.of(plant1, plant2);
 
 		when(plantService.getPlantsToWater()).thenReturn(plants);
@@ -103,7 +102,7 @@ public class PlantControllerTest {
 
 	@Test
 	void givenController_whenAddPlant_thenRespondsCreated() throws Exception {
-		Plant savedPlant = new Plant(UUID.randomUUID());
+		Plant savedPlant = new Plant(1L);
 
 		when(plantService.addPlant(any(Plant.class))).thenReturn(savedPlant);
 		var requestBody = "{ \"id\": \"" + savedPlant.getId().toString() + "\" }";
@@ -117,7 +116,7 @@ public class PlantControllerTest {
 
 	@Test
 	void givenController_whenDeleteExistingPlant_thenRespondsNoContent() throws Exception {
-		UUID id = UUID.randomUUID();
+		Long id = 1L;
 		when(plantService.exists(id)).thenReturn(true);
 
 		mockMvc.perform(MockMvcRequestBuilders
@@ -127,7 +126,7 @@ public class PlantControllerTest {
 
 	@Test
 	void givenController_whenDeleteMissingPlant_thenRespondsNotFound() throws Exception {
-		UUID id = UUID.randomUUID();
+		Long id = 1L;
 		when(plantService.exists(id)).thenReturn(false);
 
 		mockMvc.perform(MockMvcRequestBuilders
@@ -137,7 +136,7 @@ public class PlantControllerTest {
 
 	@Test
 	void givenController_whenUpdateMissingPlant_thenRespondsNotFound() throws Exception {
-		Plant plant = new Plant(UUID.randomUUID());
+		Plant plant = new Plant(1L);
 
 		when(plantService.exists(plant.getId())).thenReturn(false);
 		var requestBody = "{ \"id\": \"" + plant.getId().toString() + "\" }";
@@ -153,12 +152,12 @@ public class PlantControllerTest {
 
 	@Test
 	void givenController_whenUpdateExistingPlant_thenRespondsOk() throws Exception {
-		Plant plant = new Plant(UUID.randomUUID());
+		Plant plant = new Plant(1L);
 
 		ArgumentCaptor<Plant> plantCaptor = ArgumentCaptor.forClass(Plant.class);
 
-		when(plantService.exists(any(UUID.class))).thenReturn(true);
-		doNothing().when(plantService).updatePlant(any(UUID.class), plantCaptor.capture());
+		when(plantService.exists(any(Long.class))).thenReturn(true);
+		doNothing().when(plantService).updatePlant(any(Long.class), plantCaptor.capture());
 		var requestBody = "{ \"id\": \"" + plant.getId().toString() + "\" }";
 
 		mockMvc.perform(MockMvcRequestBuilders
