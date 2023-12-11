@@ -3,7 +3,7 @@ package com.github.thiagomorano.letittree;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -127,14 +128,19 @@ public class PlantServiceTest {
 	}
 
 	@Test
-	void givenService_whenUpdateExistingPlant_thenReturnsUpdatedPlant() {
+	void givenService_whenUpdateExistingPlant_thenCallsRepositorySave() {
 		UUID id = UUID.randomUUID();
 		Plant updatedPlant = new Plant(id, 1);
+		Plant existingPlant = new Plant(id);
 
-		// @TODO: needs refactoring together with updatePlant
+		ArgumentCaptor<Plant> plantCaptor = ArgumentCaptor.forClass(Plant.class);
+		when(mockPlantRepository.findById(any(UUID.class))).thenReturn(Optional.of(existingPlant));
+
 		plantSertvice.updatePlant(id, updatedPlant);
-		// verify(mockPlantRepository).updatePlant(id, updatedPlant);
-		fail("needs refactoring together with updatePlant");
+
+		verify(mockPlantRepository).save(plantCaptor.capture());
+		Plant savedPlant = plantCaptor.getValue();
+		assertEquals(updatedPlant.getDaysBetweenWatering(), savedPlant.getDaysBetweenWatering());
 	}
 
 	@Test

@@ -52,8 +52,13 @@ public class PlantService {
 	}
 
 	public void updatePlant(UUID id, Plant plant) {
-		// plantRepository.updatePlant(id, plant);
-		// @TODO: implement update feature
+		// @TODO: create custom exception
+		Plant existingPlant = plantRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException(String.format("Plant of %id not found", id)));
+		existingPlant.setName(plant.getName());
+		existingPlant.setDaysBetweenWatering(plant.getDaysBetweenWatering());
+		existingPlant.setLastWateringDate(plant.getLastWateringDate());
+		plantRepository.save(existingPlant);
 	}
 
 	public void deletePlant(UUID id) {
